@@ -4,12 +4,14 @@ from backend.database import get_db_connection
 from backend.routes.students import students_bp
 from backend.routes.problems import problems_bp
 from backend.routes.submissions import submissions_bp
+from backend.routes.prediction import prediction_bp
 app = Flask(__name__)
 
 # Register Student API routes
 app.register_blueprint(students_bp)
 app.register_blueprint(problems_bp)
 app.register_blueprint(submissions_bp)
+app.register_blueprint(prediction_bp)
 
 @app.route("/")
 def home():
