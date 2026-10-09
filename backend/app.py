@@ -1,9 +1,13 @@
 
 from flask import Flask, jsonify
-from database import get_db_connection
-
+from backend.database import get_db_connection
+from backend.routes.students import students_bp
+from backend.routes.problems import problems_bp
 app = Flask(__name__)
 
+# Register Student API routes
+app.register_blueprint(students_bp)
+app.register_blueprint(problems_bp)
 
 @app.route("/")
 def home():
@@ -15,7 +19,9 @@ def home():
 
 @app.route("/health")
 def health():
-    return jsonify({"status": "healthy"})
+    return jsonify({
+        "status": "healthy"
+    })
 
 
 @app.route("/db-health")
