@@ -24,17 +24,17 @@
 
 ## 📸 Screenshots
 
+### Login Page
+![Login Page](screenshots/login.png)
+
+### Struggle Detection Results
+![Struggle Detection Results](screenshots/struggle-detection.png)
+
 ### Dashboard
 ![Dashboard](screenshots/dashboard.png)
 
 ### Coding Workspace
 ![Coding Workspace](screenshots/coding-workspace.png)
-
-### Struggle Detection Results
-![Struggle Detection Results](screenshots/struggle-detection.png)
-
-### Login Page
-![Login Page](screenshots/login.png)
 
 *Replace or remove any screenshot entry that does not match your actual files.*
 
@@ -78,11 +78,3 @@ To identify potential programming difficulties through coding behavior analysis 
 ## ⚠️ Limitations
 
 The struggle detection system is an experimental prototype. Its indicators are not a clinically or scientifically validated measure of student difficulty. The code execution feature is intended for trusted local testing and requires additional security controls before public deployment.
-
-## 👩‍💻 Developed By
-
-**Ankita Pawar**
-
-B.Sc. Computer Science | Third Year
-
-GitHub: [ankitapawar27](https://github.com/ankitapawar27)
