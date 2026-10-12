@@ -1,17 +1,48 @@
 
-from flask import Flask, jsonify
+from flask import Flask , jsonify
+from werkzeug.security import generate_password_hash, check_password_hash
 from backend.database import get_db_connection
 from backend.routes.students import students_bp
 from backend.routes.problems import problems_bp
 from backend.routes.submissions import submissions_bp
 from backend.routes.prediction import prediction_bp
+from backend.routes.feedback import feedback_bp
+from backend.routes.execution import execution_bp
+from backend.routes.auth import auth_bp
+
+from flask_cors import CORS
 app = Flask(__name__)
+import os
+
+app.secret_key = os.getenv("FLASK_SECRET_KEY")
+
+if not app.secret_key:
+    raise RuntimeError(
+        "FLASK_SECRET_KEY is missing from your .env file"
+    )
+
+
+CORS(
+    app,
+    supports_credentials=True,
+    resources={
+        r"/*": {
+            "origins": [
+                "http://127.0.0.1:5500",
+                "http://localhost:5500"
+            ]
+        }
+    }
+)
 
 # Register Student API routes
 app.register_blueprint(students_bp)
 app.register_blueprint(problems_bp)
 app.register_blueprint(submissions_bp)
 app.register_blueprint(prediction_bp)
+app.register_blueprint(feedback_bp)
+app.register_blueprint(execution_bp)
+app.register_blueprint(auth_bp)
 
 @app.route("/")
 def home():

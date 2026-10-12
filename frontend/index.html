@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b1020">
+    <meta name="description" content="StruggleSense AI analyses programming behaviour to help learners understand coding difficulties and improve their programming practice.">
+    <title>StruggleSense AI | AI Learning Platform</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        body {
+            background: #0b1020;
+            color: #e8edf8;
+            font-family: Inter, "Segoe UI", Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1160px, calc(100% - 48px));
+            margin-inline: auto;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            border-bottom: 1px solid #222d44;
+            background: rgba(11, 16, 32, 0.94);
+            backdrop-filter: blur(16px);
+        }
+
+        .nav-inner {
+            min-height: 82px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            flex-shrink: 0;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            flex: 0 0 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: linear-gradient(145deg, #687bff, #7560df);
+            box-shadow: 0 5px 18px rgba(103, 119, 255, 0.2);
+        }
+
+        .brand-icon svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .brand-name {
+            color: #f1f4fc;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.7px;
+            line-height: 1.25;
+        }
+
+        .brand-accent {
+            color: #a7b3ff;
+        }
+
+        .brand-name small {
+            display: block;
+            margin-top: 4px;
+            color: #8290ad;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.7px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 29px;
+            color: #aab6cc;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .nav-links > a:not(.button):hover {
+            color: #ffffff;
+        }
+
+        .button {
+            min-height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 19px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background: linear-gradient(105deg, #5269e8, #7865e8);
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            transition: transform 0.2s, filter 0.2s;
+        }
+
+        .button:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        .button-outline {
+            border-color: #35425d;
+            background: rgba(17, 26, 45, 0.55);
+            color: #dbe4f7;
+        }
+
+        .button-outline:hover {
+            background: #17223a;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 105px 0 90px;
+            background:
+                radial-gradient(ellipse at 75% 20%, rgba(65, 91, 185, 0.18), transparent 43%),
+                radial-gradient(ellipse at 20% 60%, rgba(90, 72, 174, 0.13), transparent 45%);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.08fr 0.92fr;
+            align-items: center;
+            gap: 55px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 24px;
+            padding: 8px 12px;
+            border: 1px solid #354263;
+            border-radius: 30px;
+            background: rgba(28, 40, 68, 0.65);
+            color: #aebaff;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+        }
+
+        .eyebrow-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #8192ff;
+            box-shadow: 0 0 12px rgba(129, 146, 255, 0.65);
+        }
+
+        h1 {
+            max-width: 690px;
+            margin-bottom: 22px;
+            color: #f1f4fc;
+            font-size: clamp(39px, 5.1vw, 61px);
+            font-weight: 800;
+            letter-spacing: -2.5px;
+            line-height: 1.13;
+        }
+
+        .gradient-text {
+            background: linear-gradient(95deg, #8fa0ff, #b7a6ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-description {
+            max-width: 570px;
+            margin-bottom: 29px;
+            color: #a4b1c9;
+            font-size: 15px;
+            line-height: 1.95;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .trust-line {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 28px;
+            color: #8795b0;
+            font-size: 11px;
+        }
+
+        .trust-check {
+            color: #8e9dff;
+            font-weight: 800;
+        }
+
+        .preview {
+            position: relative;
+            padding: 20px;
+            border: 1px solid #2d3b58;
+            border-radius: 17px;
+            background: linear-gradient(145deg, #151f34, #101728);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.26);
+        }
+
+        .preview::before {
+            position: absolute;
+            z-index: -1;
+            inset: -20px;
+            border-radius: 30px;
+            background: radial-gradient(ellipse, rgba(91, 104, 220, 0.13), transparent 70%);
+            content: "";
+        }
+
+        .preview-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding-bottom: 17px;
+            border-bottom: 1px solid #2a354d;
+        }
+
+        .preview-title {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .preview-subtitle {
+            margin-top: 4px;
+            color: #8290aa;
+            font-size: 10px;
+        }
+
+        .online {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #83dcb1;
+            font-size: 10px;
+        }
+
+        .online-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #5bd49b;
+        }
+
+        .preview-label {
+            margin: 21px 0 12px;
+            color: #94a4c0;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .metric {
+            min-width: 0;
+            padding: 13px 10px;
+            border: 1px solid #2c3851;
+            border-radius: 9px;
+            background: #111a2c;
+        }
+
+        .metric span {
+            display: block;
+            margin-bottom: 7px;
+            color: #91a0ba;
+            font-size: 9px;
+        }
+
+        .metric strong {
+            color: #e9eefb;
+            font-size: 19px;
+            letter-spacing: -0.5px;
+        }
+
+        .analysis-card {
+            margin-top: 13px;
+            padding: 15px;
+            border: 1px solid #2c3851;
+            border-radius: 10px;
+            background: #111a2c;
+        }
+
+        .analysis-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .analysis-header strong {
+            font-size: 11px;
+        }
+
+        .demo-tag {
+            padding: 4px 7px;
+            border: 1px solid #42466b;
+            border-radius: 5px;
+            color: #b0b8ff;
+            font-size: 9px;
+        }
+
+        .level-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 11px;
+        }
+
+        .level-name {
+            width: 67px;
+            flex-shrink: 0;
+            color: #a6b2c8;
+            font-size: 10px;
+        }
+
+        .level-track {
+            height: 6px;
+            flex: 1;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #263149;
+        }
+
+        .level-fill {
+            height: 100%;
+            border-radius: inherit;
+        }
+
+        .level-value {
+            width: 27px;
+            color: #c5cee0;
+            text-align: right;
+            font-size: 10px;
+        }
+
+        .preview-note {
+            margin-top: 14px;
+            color: #7887a2;
+            font-size: 9px;
+            line-height: 1.7;
+        }
+
+        .section {
+            padding: 88px 0;
+        }
+
+        .section-alt {
+            border-top: 1px solid #222d44;
+            border-bottom: 1px solid #222d44;
+            background: rgba(15, 23, 40, 0.62);
+        }
+
+        .section-heading {
+            max-width: 650px;
+            margin: 0 auto 43px;
+            text-align: center;
+        }
+
+        .section-heading .eyebrow {
+            margin-bottom: 17px;
+        }
+
+        .section-heading h2 {
+            margin-bottom: 13px;
+            color: #eef2fb;
+            font-size: clamp(27px, 3.8vw, 39px);
+            font-weight: 800;
+            letter-spacing: -1.2px;
+            line-height: 1.25;
+        }
+
+        .section-heading p {
+            color: #99a7c0;
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 19px;
+        }
+
+        .feature-card {
+            padding: 25px;
+            border: 1px solid #293651;
+            border-radius: 13px;
+            background: linear-gradient(145deg, #131d31, #101727);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: #596a9e;
+        }
+
+        .feature-icon {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 20px;
+            border: 1px solid #3b4970;
+            border-radius: 11px;
+            background: #202b49;
+            color: #aab5ff;
+        }
+
+        .feature-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 10px;
+            color: #e8edf8;
+            font-size: 16px;
+        }
+
+        .feature-card p {
+            color: #9aa8c0;
+            font-size: 13px;
+            line-height: 1.9;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .step {
+            padding: 22px 19px;
+            border: 1px solid #2b3750;
+            border-radius: 12px;
+            background: #111a2b;
+        }
+
+        .step-number {
+            margin-bottom: 16px;
+            color: #9eacff;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .step h3 {
+            margin-bottom: 8px;
+            color: #e9eef9;
+            font-size: 15px;
+        }
+
+        .step p {
+            color: #9aa8c0;
+            font-size: 12px;
+            line-height: 1.9;
+        }
+
+        .cta {
+            margin: 0 0 80px;
+            padding: 54px 25px;
+            border: 1px solid #344365;
+            border-radius: 17px;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(76, 98, 197, 0.17), transparent 70%),
+                #111a2c;
+            text-align: center;
+        }
+
+        .cta h2 {
+            margin-bottom: 12px;
+            font-size: clamp(27px, 4vw, 36px);
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .cta p {
+            margin-bottom: 24px;
+            color: #9aa8c0;
+            font-size: 14px;
+        }
+
+        footer {
+            padding: 27px 0;
+            border-top: 1px solid #222d44;
+            color: #8290aa;
+            font-size: 11px;
+        }
+
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-brand {
+            color: #cbd5ea;
+            font-weight: 700;
+        }
+
+        @media (max-width: 900px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 45px;
+            }
+
+            .hero-copy {
+                max-width: 720px;
+            }
+
+            .preview {
+                width: 100%;
+                max-width: 590px;
+                margin: 0 auto;
+            }
+
+            .feature-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .steps {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .hero {
+                padding-top: 75px;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .container {
+                width: min(100% - 32px, 1160px);
+            }
+
+            .nav-inner {
+                padding: 15px 0;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .brand-name {
+                font-size: 16px;
+            }
+
+            .brand-icon {
+                width: 38px;
+                height: 38px;
+                flex-basis: 38px;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: space-between;
+                gap: 10px;
+                font-size: 11px;
+            }
+
+            .nav-links .button {
+                min-height: 36px;
+                padding: 8px 11px;
+            }
+
+            .hero {
+                padding: 65px 0 60px;
+            }
+
+            h1 {
+                font-size: clamp(36px, 10vw, 48px);
+                letter-spacing: -1.8px;
+            }
+
+            .hero-description {
+                font-size: 14px;
+            }
+
+            .section {
+                padding: 65px 0;
+            }
+
+            .feature-grid,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .cta {
+                margin-bottom: 55px;
+                padding: 40px 20px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *, *::before, *::after {
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="container nav-inner">
+            <a class="brand" href="index.html" aria-label="StruggleSense AI home">
+                <span class="brand-icon">
+                    <svg viewBox="0 0 32 32" fill="none"
+                         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M3 17H8L11 9L16 24L20 13L23 17H29"
+                              stroke="white" stroke-width="2.4"
+                              stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span class="brand-name">
+                    Struggle<span class="brand-accent">Sense</span>
+                    <small>AI LEARNING PLATFORM</small>
+                </span>
+            </a>
+
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="#features">Features</a>
+                <a href="#workflow">How it works</a>
+                <a href="login.html">Login</a>
+                <a class="button" href="login.html">Get Started&nbsp; ↗</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <div class="eyebrow">
+                        <span class="eyebrow-dot"></span>
+                        AI-POWERED PROGRAMMING LEARNING
+                    </div>
+
+                    <h1>
+                        Understand your struggles.
+                        <span class="gradient-text">Improve your coding.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        StruggleSense AI analyses coding attempts, errors,
+                        and programming behaviour to help learners understand
+                        where they are struggling and reflect on their
+                        programming progress.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a class="button" href="login.html">
+                            Start Learning&nbsp; →
+                        </a>
+                        <a class="button button-outline" href="#features">
+                            Explore Features
+                        </a>
+                    </div>
+
+                    <div class="trust-line">
+                        <span class="trust-check">✓</span>
+                        Coding practice
+                        <span>·</span>
+                        <span class="trust-check">✓</span>
+                        Behaviour analysis
+                        <span>·</span>
+                        <span class="trust-check">✓</span>
+                        Learning insights
+                    </div>
+                </div>
+
+                <div class="preview" aria-label="Illustrative learning analytics preview">
+                    <div class="preview-top">
+                        <div>
+                            <div class="preview-title">Learning Overview</div>
+                            <div class="preview-subtitle">Programming activity and insights</div>
+                        </div>
+                        <div class="online">
+                            <span class="online-dot"></span>
+                            Platform preview
+                        </div>
+                    </div>
+
+                    <div class="preview-label">YOUR PRACTICE AT A GLANCE</div>
+
+                    <div class="metric-grid">
+                        <div class="metric">
+                            <span>Attempts</span>
+                            <strong>--</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Executions</span>
+                            <strong>--</strong>
+                        </div>
+                        <div class="metric">
+                            <span>AI insights</span>
+                            <strong>--</strong>
+                        </div>
+                    </div>
+
+                    <div class="analysis-card">
+                        <div class="analysis-header">
+                            <strong>Struggle Level Analysis</strong>
+                            <span class="demo-tag">ILLUSTRATION</span>
+                        </div>
+
+                        <div class="level-row">
+                            <span class="level-name">Low</span>
+                            <div class="level-track">
+                                <div class="level-fill"
+                                     style="width: 72%; background: #58bd9b;"></div>
+                            </div>
+                            <span class="level-value">—</span>
+                        </div>
+
+                        <div class="level-row">
+                            <span class="level-name">Moderate</span>
+                            <div class="level-track">
+                                <div class="level-fill"
+                                     style="width: 48%; background: #d6ae67;"></div>
+                            </div>
+                            <span class="level-value">—</span>
+                        </div>
+
+                        <div class="level-row">
+                            <span class="level-name">High</span>
+                            <div class="level-track">
+                                <div class="level-fill"
+                                     style="width: 25%; background: #e17c8d;"></div>
+                            </div>
+                            <span class="level-value">—</span>
+                        </div>
+
+                        <p class="preview-note">
+                            Illustrative interface only. Actual predictions
+                            depend on recorded coding activity and model output.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="features">
+            <div class="container">
+                <div class="section-heading">
+                    <div class="eyebrow">YOUR LEARNING COMPANION</div>
+                    <h2>More than just finding errors</h2>
+                    <p>
+                        Turn coding practice into meaningful learning insights
+                        through recorded programming behaviour and AI-based analysis.
+                    </p>
+                </div>
+
+                <div class="feature-grid">
+                    <article class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="1.8"
+                                 stroke-linecap="round" stroke-linejoin="round"
+                                 aria-hidden="true">
+                                <path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/>
+                            </svg>
+                        </div>
+                        <h3>Coding Practice</h3>
+                        <p>
+                            Work through programming problems, execute Python
+                            code, inspect output, and review each attempt.
+                        </p>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="1.8"
+                                 stroke-linecap="round" stroke-linejoin="round"
+                                 aria-hidden="true">
+                                <path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>
+                                <path d="m5.6 5.6 2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1m-8.6 8.6-2.1 2.1"/>
+                                <circle cx="12" cy="12" r="5"/>
+                            </svg>
+                        </div>
+                        <h3>AI Struggle Detection</h3>
+                        <p>
+                            Use recorded coding behaviour to estimate a
+                            struggle level: low, moderate, or high.
+                        </p>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="1.8"
+                                 stroke-linecap="round" stroke-linejoin="round"
+                                 aria-hidden="true">
+                                <path d="M4 19V5m0 14h17"/>
+                                <path d="M8 15l4-4 3 2 5-6"/>
+                            </svg>
+                        </div>
+                        <h3>Learning Insights</h3>
+                        <p>
+                            Review attempts, errors, and prediction results
+                            to reflect on your programming practice.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-alt" id="workflow">
+            <div class="container">
+                <div class="section-heading">
+                    <div class="eyebrow">A STRUCTURED WORKFLOW</div>
+                    <h2>From coding to understanding</h2>
+                    <p>
+                        Practise, observe, analyse, and use the results to
+                        guide your next learning step.
+                    </p>
+                </div>
+
+                <div class="steps">
+                    <article class="step">
+                        <div class="step-number">STEP 01</div>
+                        <h3>Practise</h3>
+                        <p>Choose a programming problem and write your code.</p>
+                    </article>
+
+                    <article class="step">
+                        <div class="step-number">STEP 02</div>
+                        <h3>Execute</h3>
+                        <p>Run your code and inspect its output or errors.</p>
+                    </article>
+
+                    <article class="step">
+                        <div class="step-number">STEP 03</div>
+                        <h3>Analyse</h3>
+                        <p>Review recorded behaviour and AI prediction results.</p>
+                    </article>
+
+                    <article class="step">
+                        <div class="step-number">STEP 04</div>
+                        <h3>Improve</h3>
+                        <p>Reflect on your results and continue practising.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="cta">
+                <h2>Every attempt is a step forward.</h2>
+                <p>
+                    Begin your programming learning journey with StruggleSense AI.
+                </p>
+                <a class="button" href="login.html">Get Started&nbsp; →</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-inner">
+            <div>
+                <span class="footer-brand">StruggleSense AI</span>
+                <span> · Programming Struggle Detection</span>
+            </div>
+            <div>Built to support learning, one attempt at a time.</div>
+        </div>
+    </footer>
+</body>
+</html>

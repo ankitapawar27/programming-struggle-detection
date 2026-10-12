@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b1020">
+    <title>Dashboard | StruggleSense AI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+<div class="app-shell">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <a href="dashboard.html" class="brand">
+            <span class="brand-icon"><i class="bi bi-activity"></i></span>
+            <span>Struggle<span class="brand-accent">Sense</span>
+                <small>AI LEARNING PLATFORM</small>
+            </span>
+        </a>
+
+        <div class="nav-label">WORKSPACE</div>
+        <nav class="navigation">
+            <a class="nav-link active" href="dashboard.html">
+                <i class="bi bi-grid-1x2"></i> Overview
+            </a>
+            <a class="nav-link" href="coding.html">
+                <i class="bi bi-code-slash"></i> Coding Practice
+            </a>
+            <a class="nav-link" href="#analysis">
+                <i class="bi bi-stars"></i> AI Analysis
+            </a>
+            <a class="nav-link" href="#behaviour">
+                <i class="bi bi-graph-up-arrow"></i> Behaviour Analytics
+            </a>
+            <a class="nav-link" href="#history">
+                <i class="bi bi-clock-history"></i> Prediction History
+            </a>
+        </nav>
+
+        <div class="nav-label learning-label">LEARNING</div>
+        <nav class="navigation">
+            <a class="nav-link" href="#recommendations">
+                <i class="bi bi-lightbulb"></i> Recommendations
+            </a>
+            <a class="nav-link" href="#feedback">
+                <i class="bi bi-chat-square-text"></i> Feedback
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="help-card">
+                <div class="help-icon"><i class="bi bi-stars"></i></div>
+                <strong>Keep learning!</strong>
+                <p>Every attempt is a step towards improvement.</p>
+                <a href="coding.html">Start practising <i class="bi bi-arrow-up-right"></i></a>
+            </div>
+<div class="profile-mini">
+    <div class="avatar">ST</div>
+
+    <div class="profile-text">
+        <strong>Student Workspace</strong>
+        <span>Learning dashboard</span>
+    </div>
+
+    <button
+        type="button"
+        id="logoutButton"
+        class="logout-button"
+        title="Log out"
+        aria-label="Log out">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+    
+    </button>
+</div>
+</div>
+</aside>
+
+<!-- Main dashboard -->
+<main class="main-content">
+        <header class="topbar">
+            <button class="icon-button menu-button" id="menuButton" aria-label="Toggle navigation">
+                <i class="bi bi-list"></i>
+            </button>
+
+            <div class="breadcrumb">
+                Workspace <i class="bi bi-chevron-right"></i>
+                <strong>Overview</strong>
+            </div>
+
+            <div class="topbar-right">
+                <span class="system-status">
+                    <span class="status-dot"></span>
+                    <span id="connectionStatus">Checking backend</span>
+                </span>
+
+                <button class="icon-button" id="refreshButton"
+                        title="Refresh dashboard" aria-label="Refresh dashboard">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </button>
+
+                <div class="avatar top-avatar">ST</div>
+            </div>
+        </header>
+
+        <div class="page-content">
+
+            <!-- Welcome -->
+            <section class="welcome-row">
+                <div>
+                    <div class="eyebrow">
+                        <span class="eyebrow-line"></span>
+                        YOUR PERSONAL LEARNING SPACE
+                    </div>
+                    <h1>Learn smarter, <span class="gradient-text">not harder.</span></h1>
+                    <p class="page-description">
+                        Understand your coding behaviour, identify learning friction,
+                        and take your next step with confidence.
+                    </p>
+                </div>
+
+                <a class="primary-button" href="coding.html">
+                    <i class="bi bi-code-square"></i> Start coding
+                    <i class="bi bi-arrow-up-right"></i>
+                </a>
+            </section>
+
+            <!-- Hero banner -->
+            <section class="hero-panel">
+                <div class="hero-orb orb-one"></div>
+                <div class="hero-orb orb-two"></div>
+
+                <div class="hero-copy">
+                    <span class="hero-badge">
+                        <i class="bi bi-stars"></i> AI-POWERED LEARNING
+                    </span>
+
+                    <h2>Your coding journey.<br>Made <span>understandable.</span></h2>
+
+                    <p>
+                        Turn coding attempts into meaningful insights. Recognise patterns,
+                        reflect on challenges, and build better problem-solving habits.
+                    </p>
+
+                    <a href="#analysis" class="hero-link">
+                        Explore your insights <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="hero-visual" aria-hidden="true">
+                    <div class="learning-graphic">
+                        <div class="learning-graphic-icon">
+                            <i class="bi bi-activity"></i>
+                        </div>
+
+                        <div class="learning-graphic-title">
+                            <span>YOUR LEARNING JOURNEY</span>
+                            <strong>Code. Analyse. Improve.</strong>
+                        </div>
+
+                        <div class="learning-graphic-cards">
+                            <div class="learning-mini-card">
+                                <i class="bi bi-code-slash"></i>
+                                <span>Coding</span>
+                            </div>
+
+                            <div class="learning-mini-card">
+                                <i class="bi bi-graph-up-arrow"></i>
+                                <span>Insights</span>
+                            </div>
+
+                            <div class="learning-mini-card">
+                                <i class="bi bi-lightbulb"></i>
+                                <span>Learning</span>
+                            </div>
+                        </div>
+
+                        <div class="learning-progress"><span></span></div>
+                        <p class="learning-caption">Every attempt is an opportunity to grow.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Learning overview heading -->
+            <section class="section-heading">
+                <div>
+                    <h2>Your learning overview</h2>
+                    <p>Live totals from your project database when available.</p>
+                </div>
+                <span class="period-label">
+                    <i class="bi bi-database"></i> Database overview
+                </span>
+            </section>
+
+            <!-- Statistics -->
+            <section class="stats-grid">
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-icon purple"><i class="bi bi-journal-code"></i></span>
+                        <span class="stat-caption">DATABASE</span>
+                    </div>
+                    <p class="stat-label">Coding submissions</p>
+                    <div class="stat-value" id="submissionCount">--</div>
+                    <p class="stat-foot">Recorded submissions</p>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-icon blue"><i class="bi bi-people"></i></span>
+                        <span class="stat-caption">DATABASE</span>
+                    </div>
+                    <p class="stat-label">Registered students</p>
+                    <div class="stat-value" id="studentCount">--</div>
+                    <p class="stat-foot">Student records</p>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-icon cyan"><i class="bi bi-puzzle"></i></span>
+                        <span class="stat-caption">DATABASE</span>
+                    </div>
+                    <p class="stat-label">Practice problems</p>
+                    <div class="stat-value" id="problemCount">--</div>
+                    <p class="stat-foot">Available problem records</p>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-icon green"><i class="bi bi-hdd-network"></i></span>
+                        <span class="stat-caption">SYSTEM</span>
+                    </div>
+                    <p class="stat-label">Backend status</p>
+                    <div class="stat-value status-value" id="backendValue">Checking</div>
+                    <p class="stat-foot" id="backendFoot">Connecting to Flask API</p>
+                </article>
+            </section>
+
+            <!-- AI analysis and behaviour insights -->
+            <section class="content-grid">
+                <article class="panel analysis-panel" id="analysis">
+                    <div class="panel-header">
+                        <div>
+                            <h3>AI struggle analysis</h3>
+                            <p>Understand the three prediction levels</p>
+                        </div>
+                        <span class="panel-icon"><i class="bi bi-stars"></i></span>
+                    </div>
+
+                    <div class="analysis-intro">
+                        <div class="analysis-symbol"><i class="bi bi-activity"></i></div>
+                        <div>
+                            <strong>Every learner has a different journey.</strong>
+                            <p>Predictions will appear here when you analyse a coding submission.</p>
+                        </div>
+                    </div>
+
+                    <div class="level-list">
+                        <div class="level-row">
+                            <span class="level-indicator level-low"></span>
+                            <div class="level-copy">
+                                <strong>Low struggle</strong>
+                                <span>Current signals suggest fewer learning difficulties.</span>
+                            </div>
+                            <span class="level-tag tag-low">LOW</span>
+                        </div>
+
+                        <div class="level-row">
+                            <span class="level-indicator level-moderate"></span>
+                            <div class="level-copy">
+                                <strong>Moderate struggle</strong>
+                                <span>Some patterns may benefit from extra practice.</span>
+                            </div>
+                            <span class="level-tag tag-moderate">MODERATE</span>
+                        </div>
+
+                        <div class="level-row">
+                            <span class="level-indicator level-high"></span>
+                            <div class="level-copy">
+                                <strong>High struggle</strong>
+                                <span>Several signals may suggest a need for support.</span>
+                            </div>
+                            <span class="level-tag tag-high">HIGH</span>
+                        </div>
+                    </div>
+
+                    <p class="disclaimer">
+                        <i class="bi bi-info-circle"></i>
+                        These are explanatory categories, not a live diagnosis.
+                        Model results will be labelled as demonstration predictions
+                        while synthetic training data is used.
+                    </p>
+                </article>
+
+                <article class="panel activity-panel" id="behaviour">
+                    <div class="panel-header">
+                        <div>
+                            <h3>Behaviour insights</h3>
+                            <p>Signals used by the ML pipeline</p>
+                        </div>
+                        <span class="panel-icon"><i class="bi bi-graph-up-arrow"></i></span>
+                    </div>
+
+                    <div class="insight-item">
+                        <div class="insight-icon purple"><i class="bi bi-arrow-repeat"></i></div>
+                        <div><strong>Attempts</strong><p>Repeated attempts on a problem</p></div>
+                    </div>
+
+                    <div class="insight-item">
+                        <div class="insight-icon coral"><i class="bi bi-bug"></i></div>
+                        <div><strong>Error patterns</strong><p>Errors and recurring difficulties</p></div>
+                    </div>
+
+                    <div class="insight-item">
+                        <div class="insight-icon blue"><i class="bi bi-play-circle"></i></div>
+                        <div><strong>Execution activity</strong><p>How often code is executed</p></div>
+                    </div>
+
+                    <div class="insight-item">
+                        <div class="insight-icon green"><i class="bi bi-hourglass-split"></i></div>
+                        <div><strong>Time spent</strong><p>Time recorded for each submission</p></div>
+                    </div>
+
+                    <div class="mini-note">
+                        <i class="bi bi-shield-check"></i>
+                        <span>Struggle estimates should combine signals, not rely on error counts alone.</span>
+                    </div>
+                </article>
+            </section>
+
+            <!-- Recent submissions and next step -->
+            <section class="content-grid lower-grid">
+                <article class="panel" id="history">
+                    <div class="panel-header">
+                        <div>
+                            <h3>Recent submissions</h3>
+                            <p>Your latest recorded coding activity</p>
+                        </div>
+                        <a href="coding.html" class="text-link">
+                            Practise now <i class="bi bi-arrow-up-right"></i>
+                        </a>
+                    </div>
+
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="bi bi-journal-text"></i></div>
+                        <strong id="activityTitle">Loading your activity</strong>
+                        <p id="activityMessage">Checking recorded submissions from the backend.</p>
+                    </div>
+                </article>
+
+                <!-- Renamed to avoid duplicate recommendations ID -->
+                <article class="panel" id="next-step">
+                    <div class="panel-header">
+                        <div>
+                            <h3>Your next step</h3>
+                            <p>A simple learning workflow</p>
+                        </div>
+                        <span class="panel-icon"><i class="bi bi-lightbulb"></i></span>
+                    </div>
+
+                    <div class="next-step">
+                        <span class="step-number">01</span>
+                        <div><strong>Choose a problem</strong><p>Start with a concept you want to practise.</p></div>
+                    </div>
+
+                    <div class="next-step">
+                        <span class="step-number">02</span>
+                        <div><strong>Record your attempt</strong><p>Submit your coding behaviour metrics.</p></div>
+                    </div>
+
+                    <div class="next-step">
+                        <span class="step-number">03</span>
+                        <div><strong>Review the prediction</strong><p>Use the result as a learning aid, not a judgement.</p></div>
+                    </div>
+
+                    <a href="coding.html" class="secondary-button">
+                        Go to coding practice <i class="bi bi-arrow-right"></i>
+                    </a>
+                </article>
+            </section>
+
+            <!-- Recommendations: inside page-content and before footer -->
+            <section class="content-section" id="recommendations">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-eyebrow">PERSONALISED LEARNING</span>
+                        <h2>Learning Recommendations</h2>
+                        <p>Practical next steps to help you improve your coding skills.</p>
+                    </div>
+                </div>
+
+                <div class="recommendation-grid">
+                    <article class="recommendation-card">
+                        <div class="recommendation-icon">
+                            <i class="bi bi-code-slash"></i>
+                        </div>
+                        <h3>Practise consistently</h3>
+                        <p>
+                            Solve a small programming problem every day. Start with
+                            basic loops, conditions, and functions before moving to
+                            more complex problems.
+                        </p>
+                        <a href="coding.html" class="recommendation-link">
+                            Start coding <i class="bi bi-arrow-up-right"></i>
+                        </a>
+                    </article>
+
+                    <article class="recommendation-card">
+                        <div class="recommendation-icon">
+                            <i class="bi bi-bug"></i>
+                        </div>
+                        <h3>Learn from errors</h3>
+                        <p>
+                            When code fails, read the error message, identify the
+                            relevant line, and make one correction at a time.
+                        </p>
+                        <a href="#analysis" class="recommendation-link">
+                            View AI analysis <i class="bi bi-arrow-up-right"></i>
+                        </a>
+                    </article>
+
+                    <article class="recommendation-card">
+                        <div class="recommendation-icon">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+                        <h3>Track your progress</h3>
+                        <p>
+                            Review your previous submissions and struggle-level
+                            predictions to identify topics that need more practice.
+                        </p>
+                        <a href="#history" class="recommendation-link">
+                            View prediction history <i class="bi bi-arrow-up-right"></i>
+                        </a>
+                    </article>
+                </div>
+
+                <div class="recommendation-note">
+                    <i class="bi bi-info-circle"></i>
+                    <div>
+                        <strong>Learning tip</strong>
+                        <p>
+                            These are general learning suggestions. Personalised
+                            recommendations based on your actual prediction results
+                            can be connected next.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer" id="feedback">
+                <span>
+                    <span class="footer-dot"></span>
+                    StruggleSense AI
+                    <span class="footer-muted">· Programming Struggle Detection</span>
+                </span>
+                <span>Built to support learning, one attempt at a time.</span>
+            </footer>
+
+        </div>
+    </main>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <script src="../assets/js/app.js"></script>
+</div>
+</body>
+</html>

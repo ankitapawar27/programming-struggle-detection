@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b1020">
+    <title>Login | StruggleSense AI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px 18px;
+            font-family: Inter, "Segoe UI", Arial, sans-serif;
+            color: #e8edf8;
+            background:
+                radial-gradient(ellipse at 15% 10%, #182747 0%, transparent 48%),
+                radial-gradient(ellipse at 95% 90%, #171b3c 0%, transparent 42%),
+                #0b1020;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 440px;
+            padding: 36px;
+            border: 1px solid #293653;
+            border-radius: 18px;
+            background: rgba(17, 26, 45, 0.97);
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 35px;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: linear-gradient(145deg, #687bff, #7560df);
+            box-shadow: 0 5px 18px rgba(103, 119, 255, 0.2);
+        }
+
+        .brand-icon svg {
+            width: 27px;
+            height: 27px;
+        }
+
+        .brand-name {
+            color: #f1f4fc;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.7px;
+            line-height: 1.25;
+        }
+
+        .brand-name .brand-accent {
+            color: #a7b3ff;
+        }
+
+        .brand-name small {
+            display: block;
+            margin-top: 4px;
+            color: #8290ad;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.7px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 29px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            margin-bottom: 29px;
+            color: #98a6c0;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .field {
+            margin-bottom: 19px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cbd5e8;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #35425d;
+            border-radius: 8px;
+            outline: none;
+            background: #e9eef8;
+            color: #111827;
+            font: inherit;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input::placeholder {
+            color: #818ba0;
+        }
+
+        input:focus {
+            border-color: #7485ff;
+            box-shadow: 0 0 0 3px rgba(116, 133, 255, 0.16);
+        }
+
+        .primary-btn {
+            width: 100%;
+            margin-top: 5px;
+            padding: 13px 16px;
+            border: 0;
+            border-radius: 8px;
+            background: linear-gradient(105deg, #5269e8, #7865e8);
+            color: white;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: filter 0.2s, transform 0.2s;
+        }
+
+        .primary-btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .primary-btn:disabled {
+            cursor: wait;
+            opacity: 0.7;
+        }
+
+        .switch-text {
+            margin-top: 25px;
+            color: #98a6c0;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .switch-text button {
+            border: 0;
+            background: none;
+            color: #a7b3ff;
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .switch-text button:hover {
+            text-decoration: underline;
+        }
+
+        #message {
+            margin-top: 17px;
+            color: #b5c4df;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 24px;
+            color: #8290ad;
+            text-align: center;
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: #c3ccff;
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 27px 23px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="login-card">
+
+        <a class="brand" href="index.html" aria-label="StruggleSense AI home">
+            <span class="brand-icon">
+                <svg viewBox="0 0 32 32" fill="none"
+                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M3 17H8L11 9L16 24L20 13L23 17H29"
+                          stroke="white" stroke-width="2.4"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+            <span class="brand-name">
+                Struggle<span class="brand-accent">Sense</span>
+                <small>AI LEARNING PLATFORM</small>
+            </span>
+        </a>
+
+        <section id="loginSection">
+            <h1>Welcome Back</h1>
+            <p class="subtitle">
+                Sign in to continue your programming journey.
+            </p>
+
+            <form id="loginForm">
+                <div class="field">
+                    <label for="loginEmail">Email address</label>
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required>
+                </div>
+
+                <div class="field">
+                    <label for="loginPassword">Password</label>
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required>
+                </div>
+
+                <button class="primary-btn" type="submit">
+                    Sign In&nbsp; →
+                </button>
+            </form>
+
+            <p class="switch-text">
+                New to StruggleSense?
+                <button type="button" id="showSignup">Create an account</button>
+            </p>
+        </section>
+
+        <section id="signupSection" hidden>
+            <h1>Create Account</h1>
+            <p class="subtitle">
+                Start understanding your programming progress.
+            </p>
+
+            <form id="signupForm">
+                <div class="field">
+                    <label for="signupName">Full name</label>
+                    <input
+                        type="text"
+                        id="signupName"
+                        placeholder="Your full name"
+                        autocomplete="name"
+                        required>
+                </div>
+
+                <div class="field">
+                    <label for="signupEmail">Email address</label>
+                    <input
+                        type="email"
+                        id="signupEmail"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required>
+                </div>
+
+                <div class="field">
+                    <label for="signupPassword">Password</label>
+                    <input
+                        type="password"
+                        id="signupPassword"
+                        placeholder="At least 8 characters"
+                        minlength="8"
+                        autocomplete="new-password"
+                        required>
+                </div>
+
+                <button class="primary-btn" type="submit">
+                    Create Account&nbsp; →
+                </button>
+            </form>
+
+            <p class="switch-text">
+                Already registered?
+                <button type="button" id="showLogin">Sign in</button>
+            </p>
+        </section>
+
+        <p id="message" role="status" aria-live="polite"></p>
+
+        <a class="back-link" href="index.html">← Back to home</a>
+    </main>
+
+    <script src="assets/js/auth.js"></script>
+
+    <script>
+        const loginSection = document.getElementById("loginSection");
+        const signupSection = document.getElementById("signupSection");
+        const message = document.getElementById("message");
+        const loginForm = document.getElementById("loginForm");
+        const signupForm = document.getElementById("signupForm");
+
+        document.getElementById("showSignup").addEventListener("click", () => {
+            loginSection.hidden = true;
+            signupSection.hidden = false;
+            message.textContent = "";
+        });
+
+        document.getElementById("showLogin").addEventListener("click", () => {
+            signupSection.hidden = true;
+            loginSection.hidden = false;
+            message.textContent = "";
+        });
+
+        loginForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const button = loginForm.querySelector("button[type='submit']");
+            button.disabled = true;
+            message.textContent = "Signing in...";
+
+            try {
+                
+const result = await loginStudent(
+    document.getElementById("loginEmail").value,
+    document.getElementById("loginPassword").value
+);
+
+// Save the name returned by the successful login.
+const studentName = result.student?.student_name;
+
+if (studentName) {
+    localStorage.setItem("studentName", studentName);
+}
+
+message.textContent = "Login successful. Opening your dashboard...";
+
+
+                window.location.href = "student/dashboard.html";
+            } catch (error) {
+                message.textContent = error.message || "Unable to sign in.";
+                button.disabled = false;
+            }
+        });
+
+        signupForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const button = signupForm.querySelector("button[type='submit']");
+            button.disabled = true;
+            message.textContent = "Creating your account...";
+
+            try {
+                const result = await signupStudent(
+                    document.getElementById("signupName").value,
+                    document.getElementById("signupEmail").value,
+                    document.getElementById("signupPassword").value
+                );
+
+                message.textContent = result.message + ". You can now sign in.";
+
+                signupSection.hidden = true;
+                loginSection.hidden = false;
+
+                document.getElementById("loginEmail").value =
+                    document.getElementById("signupEmail").value;
+                document.getElementById("loginPassword").value = "";
+            } catch (error) {
+                message.textContent = error.message || "Unable to create account.";
+            } finally {
+                button.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

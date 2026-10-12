@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <title>Coding Practice | StruggleSense AI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <style>
+    .run-button {
+      background: #16865c;
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .run-button:hover { background: #116d49; }
+    .run-button:disabled { opacity: .6; cursor: wait; }
+
+    .console-panel {
+      margin-top: 16px;
+      overflow: hidden;
+      border: 1px solid #343b4c;
+      border-radius: 12px;
+      background: #101522;
+      color: #e7eaf0;
+    }
+
+    .console-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 15px;
+      border-bottom: 1px solid #343b4c;
+    }
+
+    .console-header strong { font-size: 14px; }
+    .console-status { font-size: 12px; color: #b6c0d1; }
+    .console-status.success { color: #6ee7a8; }
+    .console-status.error { color: #ff9999; }
+
+    .console-output {
+      box-sizing: border-box;
+      min-height: 110px;
+      max-height: 300px;
+      overflow: auto;
+      padding: 15px;
+      margin: 0;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font: 13px/1.6 Consolas, "Courier New", monospace;
+      color: #e7eaf0;
+    }
+
+    .console-output.error-output { color: #ff9999; }
+
+    .console-meta {
+      border-top: 1px solid #343b4c;
+      padding: 9px 15px;
+      color: #aab5c8;
+      font-size: 12px;
+    }
+
+    .execution-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 0;
+    }
+
+    .execution-note {
+      font-size: 12px;
+      color: #9aa5b7;
+      margin: 4px 0 0;
+    }
+
+    /* Execution history */
+    .execution-history-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .execution-history-item {
+      padding: 14px;
+      border: 1px solid #343b4c;
+      border-radius: 10px;
+      overflow-wrap: anywhere;
+    }
+
+    .execution-history-item h4 {
+      margin: 0 0 8px;
+    }
+
+    .execution-history-details {
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .execution-history-output {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      max-height: 180px;
+      overflow: auto;
+      padding: 12px;
+      border-radius: 8px;
+      background: #101522;
+      color: #e7eaf0;
+      font: 13px/1.6 Consolas, "Courier New", monospace;
+    }
+  </style>
+</head>
+
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a href="dashboard.html" class="brand">
+      <span class="brand-icon"><i class="bi bi-activity"></i></span>
+      <span>Struggle<span class="brand-accent">Sense</span><small>AI LEARNING PLATFORM</small></span>
+    </a>
+
+    <div class="nav-label">WORKSPACE</div>
+    <nav class="navigation">
+      <a class="nav-link" href="dashboard.html"><i class="bi bi-grid-1x2"></i> Overview</a>
+      <a class="nav-link active" href="coding.html"><i class="bi bi-code-slash"></i> Coding Practice</a>
+      <a class="nav-link" href="dashboard.html#analysis"><i class="bi bi-stars"></i> AI Analysis</a>
+      <a class="nav-link" href="dashboard.html#history"><i class="bi bi-clock-history"></i> Prediction History</a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="help-card">
+        <div class="help-icon"><i class="bi bi-lightbulb"></i></div>
+        <strong>Learn at your pace</strong>
+        <p>Take your time, experiment, and reflect on each attempt.</p>
+        <a href="dashboard.html">Back to overview <i class="bi bi-arrow-up-right"></i></a>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <button class="icon-button menu-button" id="menuButton" aria-label="Toggle navigation">
+        <i class="bi bi-list"></i>
+      </button>
+
+      <div class="breadcrumb">Workspace <i class="bi bi-chevron-right"></i> <strong>Coding Practice</strong></div>
+
+      <div class="topbar-right">
+        <span class="system-status">
+          <span class="status-dot"></span>
+          <span id="connectionStatus">Checking backend</span>
+        </span>
+        <div class="avatar top-avatar" id="userInitials">ST</div>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <section class="welcome-row">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> PRACTICE WORKSPACE</div>
+          <h1>Turn ideas into <span class="gradient-text">code.</span></h1>
+          <p class="page-description">Write Python, run your code, inspect errors, and submit attempts for learning analysis.</p>
+        </div>
+      </section>
+
+      <section class="coding-layout">
+        <article class="panel problem-panel">
+          <div class="panel-header">
+            <div>
+              <h3 id="problemTitle">Loading problems...</h3>
+              <p>Problem workspace</p>
+            </div>
+            <span class="panel-icon"><i class="bi bi-puzzle"></i></span>
+          </div>
+
+          <label for="problemSelect" class="field-label">Choose a saved problem</label>
+          <select id="problemSelect" class="form-control">
+            <option value="">Loading problems...</option>
+          </select>
+
+          <details class="custom-problem-card" open>
+            <summary><i class="bi bi-plus-circle"></i> Create your own problem</summary>
+            <form id="customProblemForm" class="custom-problem-form">
+              <label for="customProblemTitle">Problem title *</label>
+              <input id="customProblemTitle" type="text" maxlength="200" placeholder="e.g. Find the second largest number" required>
+
+              <label for="customProblemDescription">Problem description *</label>
+              <textarea id="customProblemDescription" rows="4" placeholder="Describe the problem you want to solve..." required></textarea>
+
+              <label for="customProblemConcept">Concept</label>
+              <input id="customProblemConcept" type="text" maxlength="100" placeholder="e.g. Arrays, Loops, Strings">
+
+              <label for="customProblemDifficulty">Difficulty</label>
+              <select id="customProblemDifficulty" class="form-control">
+                <option value="Easy">Easy</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+
+              <button type="submit" class="primary-button" id="createProblemButton">
+                <i class="bi bi-plus-lg"></i> Save and start solving
+              </button>
+              <p id="customProblemMessage" aria-live="polite" class="form-message"></p>
+            </form>
+          </details>
+
+          <div class="period-label" id="difficultyLabel">Difficulty: —</div>
+          <h3 class="description-heading">Problem description</h3>
+          <p class="problem-description" id="problemDescription">Choose a saved problem or create your own.</p>
+          <div class="result-message" id="problemStatus" aria-live="polite">Select a problem to begin.</div>
+        </article>
+
+        <article class="editor-panel">
+          <div class="editor-toolbar">
+            <strong><i class="bi bi-code-square"></i> Code Editor</strong>
+            <select id="languageSelect" aria-label="Programming language">
+              <option value="python">Python</option>
+              <option value="java">Java</option>
+              <option value="javascript">JavaScript</option>
+              <option value="c">C</option>
+            </select>
+          </div>
+
+          <div id="editor" aria-label="Code editor"></div>
+
+          <div class="execution-toolbar">
+            <button type="button" class="run-button" id="runCodeButton">
+              <i class="bi bi-play-fill"></i> Run Code
+            </button>
+            <button type="button" id="recordErrorButton">
+              <i class="bi bi-bug"></i> Report an error
+            </button>
+            <button type="button" class="submit-button" id="submitButton">
+              <i class="bi bi-send"></i> Submit Attempt
+            </button>
+          </div>
+
+          <p class="execution-note">Select your language, run your code, and inspect the output console.</p>
+
+          <section class="console-panel" aria-label="Program output">
+            <div class="console-header">
+              <strong><i class="bi bi-terminal"></i> Output Console</strong>
+              <span class="console-status" id="consoleStatus" aria-live="polite">Ready</span>
+            </div>
+            <pre class="console-output" id="consoleOutput">Your program output will appear here.</pre>
+            <div class="console-meta" id="consoleMeta">Execution time: —</div>
+          </section>
+
+          <div class="metric-grid">
+            <div class="metric-box">
+              <span>Attempts</span>
+              <strong id="attemptCount">0</strong>
+            </div>
+            <div class="metric-box">
+              <span>Executions</span>
+              <strong id="executionCount">0</strong>
+            </div>
+            <div class="metric-box">
+              <span>Errors reported</span>
+              <strong id="errorCount">0</strong>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel results-panel">
+        <div class="panel-header">
+          <div>
+            <h3>Submission &amp; AI analysis</h3>
+            <p>Results from your existing Flask and ML pipeline</p>
+          </div>
+          <span class="panel-icon"><i class="bi bi-stars"></i></span>
+        </div>
+        <div class="result-message" id="submissionResult" aria-live="polite">Your submission results will appear here.</div>
+        <div class="result-message" id="predictionResult" aria-live="polite">Submit an attempt before requesting an AI prediction.</div>
+        
+      </section>
+
+      <!-- NEW: Execution History -->
+      <section class="panel results-panel" id="executionHistoryPanel">
+        <div class="panel-header">
+          <div>
+            <h3><i class="bi bi-clock-history"></i> Execution History</h3>
+            <p>Your recent runs, errors, and timeouts</p>
+          </div>
+          <button type="button" class="primary-button" id="refreshExecutionHistoryButton">
+            <i class="bi bi-arrow-clockwise"></i> Refresh
+          </button>
+        </div>
+
+        <p id="executionHistoryStatus" aria-live="polite">Execution history will load automatically.</p>
+        <div id="executionHistoryList" class="execution-history-list">
+          <p>Your saved executions will appear here.</p>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span><span class="footer-dot"></span> StruggleSense AI <span class="footer-muted">· Programming Struggle Detection</span></span>
+        <span>Built to support learning, one attempt at a time.</span>
+      </footer>
+    </div>
+  </main>
+</div>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js"></script>
+<script src="../assets/js/coding.js"></script>
+</body>
+</html>

@@ -1,6 +1,8 @@
 
 from flask import Blueprint, request, jsonify
+
 from backend.database import get_db_connection
+from backend.services.behaviour_tracker import log_behaviour
 
 submissions_bp = Blueprint("submissions", __name__)
 
@@ -17,16 +19,18 @@ def add_submission():
     execution_count = data.get("execution_count", 0)
     time_spent_seconds = data.get("time_spent_seconds", 0)
 
+    # Validate required fields.
     if student_id is None or problem_id is None:
         return jsonify({
             "error": "student_id and problem_id are required"
         }), 400
 
-    if not code_text or not code_text.strip():
+    if not isinstance(code_text, str) or not code_text.strip():
         return jsonify({
             "error": "code_text is required"
         }), 400
 
+    # Validate integer fields.
     try:
         student_id = int(student_id)
         problem_id = int(problem_id)
@@ -39,6 +43,7 @@ def add_submission():
             "error": "IDs and behaviour metrics must be integers"
         }), 400
 
+    # Validate ranges.
     if (
         student_id < 1
         or problem_id < 1
@@ -48,7 +53,10 @@ def add_submission():
         or time_spent_seconds < 0
     ):
         return jsonify({
-            "error": "IDs and attempt number must be positive; metrics cannot be negative"
+            "error": (
+                "IDs and attempt number must be positive; "
+                "metrics cannot be negative"
+            )
         }), 400
 
     connection = None
@@ -58,7 +66,8 @@ def add_submission():
         connection = get_db_connection()
         cursor = connection.cursor()
 
-        query = """
+        cursor.execute(
+            """
             INSERT INTO submission (
                 student_id,
                 problem_id,
@@ -69,10 +78,7 @@ def add_submission():
                 time_spent_seconds
             )
             VALUES (%s, %s, %s, %s, %s, %s, %s)
-        """
-
-        cursor.execute(
-            query,
+            """,
             (
                 student_id,
                 problem_id,
@@ -83,16 +89,9 @@ def add_submission():
                 time_spent_seconds
             )
         )
+
         connection.commit()
-
         submission_id = cursor.lastrowid
-
-        return jsonify({
-            "message": "Submission added successfully",
-            "submission_id": submission_id,
-            "student_id": student_id,
-            "problem_id": problem_id
-        }), 201
 
     except Exception as error:
         if connection:
@@ -112,8 +111,69 @@ def add_submission():
     finally:
         if cursor:
             cursor.close()
+
         if connection and connection.is_connected():
             connection.close()
+
+    # Record submission creation after the submission is saved.
+    try:
+        log_behaviour(
+            submission_id,
+            "submission_created",
+            {
+                "attempt_number": attempt_number,
+                "error_count": error_count,
+                "execution_count": execution_count,
+                "time_spent_seconds": time_spent_seconds
+            }
+        )
+    except Exception:
+        submissions_bp.logger.exception(
+            "Submission saved, but behaviour logging failed"
+        )
+
+    return jsonify({
+        "message": "Submission added successfully",
+        "submission_id": submission_id,
+        "student_id": student_id,
+        "problem_id": problem_id
+    }), 201
+
+
+@submissions_bp.route(
+    "/submissions/<int:submission_id>/behaviour",
+    methods=["POST"]
+)
+def record_submission_behaviour(submission_id):
+    data = request.get_json(silent=True) or {}
+    event_type = data.get("event_type")
+
+    if event_type != "error":
+        return jsonify({
+            "error": "event_type must be 'error'"
+        }), 400
+
+    try:
+        log_behaviour(
+            submission_id,
+            "error",
+            {"source": "manual_error_button"}
+        )
+
+        return jsonify({
+            "message": "Behaviour event recorded",
+            "submission_id": submission_id,
+            "event_type": "error"
+        }), 201
+
+    except Exception:
+        submissions_bp.logger.exception(
+            "Could not record submission behaviour"
+        )
+
+        return jsonify({
+            "error": "Could not record behaviour event"
+        }), 500
 
 
 @submissions_bp.route("/submissions", methods=["GET"])
@@ -125,7 +185,8 @@ def get_submissions():
         connection = get_db_connection()
         cursor = connection.cursor(dictionary=True)
 
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT
                 submission_id,
                 student_id,
@@ -138,7 +199,8 @@ def get_submissions():
                 submitted_at
             FROM submission
             ORDER BY submission_id DESC
-        """)
+            """
+        )
 
         submissions = cursor.fetchall()
 
@@ -151,7 +213,9 @@ def get_submissions():
         return jsonify(submissions), 200
 
     except Exception:
-        submissions_bp.logger.exception("Could not retrieve submissions")
+        submissions_bp.logger.exception(
+            "Could not retrieve submissions"
+        )
 
         return jsonify({
             "error": "Could not retrieve submissions"
@@ -160,5 +224,6 @@ def get_submissions():
     finally:
         if cursor:
             cursor.close()
+
         if connection and connection.is_connected():
             connection.close()
